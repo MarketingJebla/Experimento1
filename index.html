@@ -17,7 +17,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="preload" as="image" href="img/hero-sala.webp" imagesrcset="img/hero-sala-sm.webp 800w, img/hero-sala.webp 1600w" imagesizes="100vw">
+<link rel="preload" as="image" href="img/fachada.webp" imagesrcset="img/fachada-sm.webp 800w, img/fachada.webp 1009w" imagesizes="(min-width:900px) 48vw, 100vw">
 <style>
 :root{
   --ink:#1c2422; --muted:#5d6a66; --paper:#f7f3ec; --card:#ffffff; --line:#e6dfd3;
@@ -58,12 +58,19 @@ section{padding:72px 0}
 .topbar.solid .btn{opacity:1;pointer-events:auto}
 
 /* Hero */
-.hero{position:relative;min-height:100svh;display:flex;align-items:flex-end;color:#fff;padding:0 0 40px;overflow:hidden}
-.hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:62% 50%}
-.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(15,22,20,.45) 0%,rgba(15,22,20,.1) 30%,rgba(15,22,20,.55) 62%,rgba(15,22,20,.88) 100%)}
+.hero{position:relative;min-height:100svh;display:flex;align-items:flex-end;color:#fff;padding:0 0 40px;overflow:hidden;background:var(--brand)}
+.hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 20%}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(15,22,20,.55) 0%,rgba(15,22,20,0) 18%,rgba(15,22,20,0) 32%,rgba(15,22,20,.75) 55%,rgba(15,22,20,.94) 78%,#16231f 100%)}
 .hero .wrap{position:relative;z-index:1}
-.badge{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.35);backdrop-filter:blur(6px);padding:6px 14px;border-radius:999px;font-size:.82rem;font-weight:500;margin-bottom:16px}
-.badge i{width:8px;height:8px;border-radius:50%;background:#5be08f;box-shadow:0 0 0 4px rgba(91,224,143,.25)}
+.hero h1,.hero .loc,.hero .price{text-shadow:0 2px 14px rgba(0,0,0,.45)}
+@media(min-width:900px){
+  .hero{display:grid;grid-template-columns:1.05fr .95fr;align-items:stretch;padding:0;min-height:min(100svh,860px)}
+  .hero img{position:relative;inset:auto;grid-column:2;grid-row:1;height:100%;min-height:100%;object-position:50% 35%}
+  .hero::after{display:none}
+  .hero .wrap{grid-column:1;grid-row:1;width:auto;margin:0;padding:120px 56px 56px max(32px,calc((100vw - 1120px)/2));display:flex;flex-direction:column;justify-content:center}
+  .hero h1,.hero .loc,.hero .price{text-shadow:none}
+  .hero h1{font-size:clamp(2.3rem,3.6vw,3.4rem)}
+}
 .hero h1{font-size:clamp(2.1rem,6.5vw,4.2rem);max-width:820px}
 .hero .loc{font-size:1.05rem;opacity:.92;margin-bottom:18px}
 .price{font-family:Fraunces,serif;font-size:clamp(2rem,6vw,3rem);font-weight:600;line-height:1;margin:6px 0 4px}
@@ -186,10 +193,10 @@ footer{padding:36px 0 120px;font-size:.82rem;color:var(--muted);text-align:cente
 <main id="inicio">
   <!-- HERO -->
   <section class="hero" aria-label="Portada">
-    <img src="img/hero-sala.webp" srcset="img/hero-sala-sm.webp 800w, img/hero-sala.webp 1600w" sizes="100vw" alt="Sala, comedor y cocina integrados en planta baja con salida al patio" fetchpriority="high">
+    <img src="img/fachada.webp" srcset="img/fachada-sm.webp 800w, img/fachada.webp 1009w" sizes="(min-width:900px) 48vw, 100vw" alt="Fachada de la casa en Villas Xaltipa 1 con jardín al frente y pérgola en la azotea" fetchpriority="high">
     <div class="wrap">
       <span class="badge"><i></i>En venta · Lista para habitar</span>
-      <h1>Más espacio para tu familia, en 3 niveles y con terraza propia</h1>
+      <h1>Tu casa de 3 niveles con terraza propia, lista para habitar</h1>
       <p class="loc">Villas Xaltipa 1, Cuautitlán, Estado de México · Modelo Álamo Plus</p>
       <div class="price">$2,950,000 <small>MXN</small></div>
       <div class="hero-ctas">
@@ -466,7 +473,7 @@ footer{padding:36px 0 120px;font-size:.82rem;color:var(--muted);text-align:cente
 
   // Gallery data (ordered as a walkthrough)
   var G = [
-    ["fachada","Fachada"],["hero-sala","Sala, comedor y cocina"],["sala-comedor","Sala y comedor"],["cocina","Cocina integral"],
+    ["fachada","Fachada con jardín al frente"],["hero-sala","Sala, comedor y cocina"],["sala-comedor","Sala y comedor"],["cocina","Cocina integral"],
     ["cocina-detalle","Cocina y comedor"],["estancia-luz-indirecta","Estancia con luz indirecta"],["patio-1","Patio y área de servicio"],["patio-2","Patio con jardinera"],
     ["escalera","Escalera"],["recamara-2","Recámara con baño completo"],["balcon","Balcón con vista a área verde"],["principal-1","Recámara principal"],
     ["principal-2","Recámara principal"],["principal-3","Recámara principal y baño"],["vestidor-bano","Vestidor y baño"],["principal-estar","Zona de estar en recámara principal"],
