@@ -178,6 +178,13 @@ footer{padding:36px 0 120px;font-size:.82rem;color:var(--muted);text-align:cente
 .reveal.in{opacity:1;transform:none}
 @media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none}.float-wa{animation:none}html{scroll-behavior:auto}}
 </style>
+<!-- Meta Pixel: Casa Villas Xaltipa -->
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init','1433491188939367');
+fbq('track','PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none" alt="" src="https://www.facebook.com/tr?id=1433491188939367&ev=PageView&noscript=1"></noscript>
 </head>
 <body>
 
@@ -420,7 +427,8 @@ footer{padding:36px 0 120px;font-size:.82rem;color:var(--muted);text-align:cente
 <footer>
   <div class="wrap">
     Precio sujeto a cambio sin previo aviso. Medidas aproximadas. Las fotografías son de la propiedad; el mobiliario y la decoración no están incluidos.<br>
-    Casa en venta · Villas Xaltipa 1 · Cuautitlán, Estado de México
+    Casa en venta · Villas Xaltipa 1 · Cuautitlán, Estado de México<br>
+    <a href="aviso-de-privacidad.html">Aviso de privacidad</a>
   </div>
 </footer>
 
@@ -449,10 +457,35 @@ footer{padding:36px 0 120px;font-size:.82rem;color:var(--muted);text-align:cente
     fotos: "¡Hola! Vi las fotos de la casa en Villas Xaltipa 1, Cuautitlán. ¿Me pueden compartir más fotos o un video del recorrido?",
     credito: "¡Hola! Me interesa la casa en Villas Xaltipa 1, Cuautitlán ($2,950,000). ¿Qué formas de pago o créditos aceptan?"
   };
+  // Origen del visitante: se agrega al saludo para saber de dónde llegó cada conversación
+  var SRC = (function(){
+    var q = new URLSearchParams(location.search), src = '';
+    var us = (q.get('utm_source') || '').toLowerCase(), uc = q.get('utm_content') || '';
+    if (us || q.get('fbclid')) {
+      src = /meta|facebook|fb|instagram|ig/.test(us) || q.get('fbclid') ? 'anuncio' : us;
+      if (uc) src += '-' + uc.toLowerCase().replace(/[^a-z0-9]+/g, '').slice(0, 20);
+    } else if (/facebook\.com|instagram\.com/.test(document.referrer)) {
+      src = 'facebook';
+    }
+    try {
+      if (src) sessionStorage.setItem('xaltipa_src', src);
+      else src = sessionStorage.getItem('xaltipa_src') || '';
+    } catch (e) {}
+    return src || 'web';
+  })();
+  function track(ev, params){ try { if (window.fbq) fbq('track', ev, params || {}); } catch (e) {} }
+
   document.querySelectorAll('.wa-link').forEach(function(a){
     var m = MSGS[a.dataset.msg] || MSGS.info;
-    a.href = "https://wa.me/" + PHONE + "?text=" + encodeURIComponent(m);
+    a.href = "https://wa.me/" + PHONE + "?text=" + encodeURIComponent(m + " (Ref. " + SRC + ")");
+    a.addEventListener('click', function(){ track('Contact', {content_name: 'whatsapp_' + (a.dataset.msg || 'info'), content_category: SRC}); });
   });
+  document.querySelectorAll('a[href^="tel:"]').forEach(function(a){
+    a.addEventListener('click', function(){ track('Contact', {content_name: 'llamada', content_category: SRC}); });
+  });
+  // Interés: primera vez que abre fotos o cambia de nivel
+  var viewed = false;
+  function interest(what){ if (viewed) return; viewed = true; track('ViewContent', {content_name: what, content_category: SRC}); }
 
   // Top bar + mobile bar on scroll
   var bar = document.getElementById('topbar'), mb = document.getElementById('mobileBar');
@@ -467,6 +500,7 @@ footer{padding:36px 0 120px;font-size:.82rem;color:var(--muted);text-align:cente
   var tabs = document.querySelectorAll('.tab');
   tabs.forEach(function(t){
     t.addEventListener('click', function(){
+      interest('distribucion');
       tabs.forEach(function(o){ o.setAttribute('aria-selected', o === t); document.getElementById(o.getAttribute('aria-controls')).hidden = o !== t; });
     });
   });
@@ -493,6 +527,7 @@ footer{padding:36px 0 120px;font-size:.82rem;color:var(--muted);text-align:cente
     var img = e.target.closest('img[data-full]');
     if (img && !lb.contains(img)) {
       var scope = img.closest('#gallery, .panel, .amen-photos') || document;
+      interest('fotos');
       list = Array.prototype.slice.call(scope.querySelectorAll('img[data-full]'));
       if (scope === document) list = [img];
       show(list.indexOf(img)); lb.classList.add('open'); document.body.style.overflow = 'hidden';
