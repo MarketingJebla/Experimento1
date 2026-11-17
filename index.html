@@ -139,6 +139,14 @@ section{padding:72px 0}
 /* CTA band */
 .cta-band{text-align:center}
 .cta-card{background:var(--card);border:1px solid var(--line);border-radius:24px;padding:40px 22px;box-shadow:var(--shadow)}
+.visit-form{max-width:440px;margin:28px auto 6px;text-align:left;display:grid;gap:14px;padding:22px;border:1px solid rgba(31,58,52,.15);border-radius:18px;background:#fff}
+.visit-form .vf-title{font-weight:600;color:var(--brand);text-align:center}
+.visit-form label{display:grid;gap:6px;font-size:.92rem;font-weight:500;color:var(--brand)}
+.visit-form input,.visit-form select{font:inherit;font-weight:400;padding:12px 14px;border:1.5px solid rgba(31,58,52,.25);border-radius:12px;background:#fff;color:#1c2422;width:100%}
+.visit-form input:focus,.visit-form select:focus{outline:none;border-color:var(--brand)}
+.visit-form .btn{width:100%}
+.visit-form .vf-note{font-size:.8rem;color:var(--muted);margin:0;text-align:center}
+.visit-form .vf-err{font-size:.85rem;color:#b3261e;margin:0;text-align:center}
 .cta-card .price{color:var(--brand)}
 .cta-actions{display:flex;flex-direction:column;gap:12px;align-items:center;margin-top:22px}
 @media(min-width:600px){.cta-actions{flex-direction:row;justify-content:center}}
@@ -402,10 +410,29 @@ fbq('track','PageView');
           <a class="btn btn-wa wa-link" data-msg="visita" href="#" target="_blank" rel="noopener"><svg class="wa-ico"><use href="#wa"/></svg>Agendar visita por WhatsApp</a>
           <a class="btn btn-outline wa-link" data-msg="credito" href="#" target="_blank" rel="noopener">Preguntar por formas de pago</a>
         </div>
+        <form class="visit-form" id="visitForm" novalidate>
+          <div class="vf-title">O cuéntanos qué buscas y agenda tu visita</div>
+          <label>Nombre<input name="nombre" autocomplete="name" required maxlength="60" placeholder="Tu nombre"></label>
+          <label>¿Cómo planeas comprar?
+            <select name="pago" required>
+              <option value="">Selecciona una opción</option>
+              <option>Contado</option><option>Crédito bancario</option><option>Infonavit</option>
+              <option>Fovissste</option><option>Cofinavit</option><option>Aún no lo sé</option>
+            </select>
+          </label>
+          <label>¿Cuándo te gustaría visitarla?
+            <select name="cuando" required>
+              <option value="">Selecciona una opción</option>
+              <option>Esta semana</option><option>Próximas 2 semanas</option><option>Más adelante</option>
+            </select>
+          </label>
+          <button class="btn btn-wa" type="submit"><svg class="wa-ico"><use href="#wa"/></svg>Enviar por WhatsApp</button>
+          <p class="vf-note">Al enviar se abre WhatsApp con tus datos para que confirmes el mensaje. Consulta el <a href="aviso-de-privacidad.html">aviso de privacidad</a>.</p>
+          <p class="vf-err" hidden>Completa los tres campos, por favor.</p>
+        </form>
         <div class="contact-alt">
           <span>WhatsApp: <a class="wa-link" data-msg="info" href="#" target="_blank" rel="noopener">55 6087 5469</a></span>
           <span>Llamada: <a href="tel:+525560875469">55 6087 5469</a></span>
-          <span>Correo: <a href="mailto:ventas@ejemplo.com?subject=Casa%20en%20venta%20Villas%20Xaltipa%201">ventas@ejemplo.com</a></span>
         </div>
       </div>
     </div>
@@ -483,6 +510,22 @@ fbq('track','PageView');
   });
   document.querySelectorAll('a[href^="tel:"]').forEach(function(a){
     a.addEventListener('click', function(){ track('Contact', {content_name: 'llamada', content_category: SRC}); });
+  });
+  // Formulario "Agenda tu visita": arma el mensaje y abre WhatsApp (no guarda datos en servidor)
+  var vf = document.getElementById('visitForm');
+  if (vf) vf.addEventListener('input', function(){ vf.querySelector('.vf-err').hidden = true; });
+  if (vf) vf.addEventListener('submit', function(e){
+    e.preventDefault();
+    var n = vf.nombre.value.trim(), pg = vf.pago.value, cu = vf.cuando.value;
+    var err = vf.querySelector('.vf-err');
+    if (!n || !pg || !cu) { err.hidden = false; return; }
+    err.hidden = true;
+    var txt = "¡Hola! Soy " + n + ". Me interesa la casa en venta en Villas Xaltipa 1, Cuautitlán ($2,950,000). Planeo comprar con: " + pg + ". Me gustaría visitarla: " + cu + ". (Ref. " + SRC + "-form)";
+    track('Lead', {content_name: 'formulario_visita', content_category: SRC});
+    track('Contact', {content_name: 'whatsapp_formulario', content_category: SRC});
+    var url = "https://wa.me/" + PHONE + "?text=" + encodeURIComponent(txt);
+    var w = window.open(url, '_blank');
+    if (w) { try { w.opener = null; } catch (x) {} } else { location.href = url; }
   });
   // Interés: primera vez que abre fotos o cambia de nivel
   var viewed = false;
