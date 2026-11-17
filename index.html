@@ -172,7 +172,18 @@ footer{padding:36px 0 120px;font-size:.82rem;color:var(--muted);text-align:cente
 .mobile-bar .mb-price small{display:block;font:500 .72rem Inter,sans-serif;color:var(--muted)}
 .mobile-bar .btn{flex:1;padding:13px 16px}
 @media(min-width:760px){.mobile-bar{display:none}}
-@media(max-width:759px){.float-wa{bottom:86px}}
+@media(max-width:759px){
+  .float-wa{display:none}
+  .topbar .btn{display:none}
+  body{padding-bottom:calc(84px + env(safe-area-inset-bottom))}
+  .hero-ctas .btn{flex:1 1 100%;min-height:56px;font-size:1.05rem}
+  .cta-actions .btn{width:100%;min-height:54px}
+}
+.mobile-bar.hide-near-cta{transform:translateY(110%)}
+.mobile-bar .btn{min-height:52px;font-size:1.02rem;white-space:nowrap}
+.mobile-bar .wa-ico{width:22px;height:22px}
+.hero-note{flex-basis:100%;margin:2px 0 0;font-size:.85rem;color:rgba(255,255,255,.82);display:flex;align-items:center;gap:6px}
+.hero-note::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--wa);box-shadow:0 0 0 3px rgba(31,168,85,.25)}
 
 /* Lightbox */
 .lb{position:fixed;inset:0;z-index:60;background:rgba(10,14,13,.95);display:none;flex-direction:column;align-items:center;justify-content:center;padding:16px}
@@ -218,6 +229,7 @@ fbq('track','PageView');
       <div class="hero-ctas">
         <a class="btn btn-wa wa-link" data-msg="info" href="#" target="_blank" rel="noopener"><svg class="wa-ico"><use href="#wa"/></svg>Quiero más información</a>
         <a class="btn btn-ghost" href="#galeria">Ver fotos</a>
+        <p class="hero-note">Te respondemos por WhatsApp · sin compromiso</p>
       </div>
     </div>
   </section>
@@ -464,7 +476,7 @@ fbq('track','PageView');
 
 <div class="mobile-bar" id="mobileBar">
   <div class="mb-price">$2,950,000<small>3 rec · 3½ baños · 2 autos</small></div>
-  <a class="btn btn-wa wa-link" data-msg="info" href="#" target="_blank" rel="noopener"><svg class="wa-ico"><use href="#wa"/></svg>WhatsApp</a>
+  <a class="btn btn-wa wa-link" data-msg="visita" href="#" target="_blank" rel="noopener" aria-label="Agendar visita por WhatsApp"><svg class="wa-ico"><use href="#wa"/></svg>Agendar visita</a>
 </div>
 
 <div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Foto ampliada">
@@ -539,6 +551,15 @@ fbq('track','PageView');
     mb.classList.toggle('show', y > h);
   }
   window.addEventListener('scroll', onScroll, {passive:true}); onScroll();
+  if ('IntersectionObserver' in window) {
+    var near = new Set();
+    var ioCta = new IntersectionObserver(function(es){
+      es.forEach(function(en){ en.isIntersecting ? near.add(en.target) : near.delete(en.target); });
+      mb.classList.toggle('hide-near-cta', near.size > 0);
+    }, {threshold: 0.15});
+    ['contacto'].forEach(function(id){ var el = document.getElementById(id); if (el) ioCta.observe(el); });
+    var ft = document.querySelector('footer'); if (ft) ioCta.observe(ft);
+  }
 
   // Tabs
   var tabs = document.querySelectorAll('.tab');
