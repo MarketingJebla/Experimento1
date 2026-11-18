@@ -177,9 +177,20 @@ footer{padding:36px 0 120px;font-size:.82rem;color:var(--muted);text-align:cente
   .topbar .btn{display:none}
   body{padding-bottom:calc(84px + env(safe-area-inset-bottom))}
   .hero-ctas .btn{flex:1 1 100%;min-height:56px;font-size:1.05rem}
-  .cta-actions .btn{width:100%;min-height:54px}
+  .hero-ctas .btn-half{flex:1 1 calc(50% - 6px)}
+  .cta-actions .btn{width:100%;min-height:54px;padding:14px 18px}
 }
 .mobile-bar.hide-near-cta{transform:translateY(110%)}
+.call-ico{width:20px;height:20px;flex:none}
+.btn-call-solid{background:var(--brand);color:#fff;box-shadow:0 8px 22px rgba(31,58,52,.28)}
+.btn-call-solid:hover{background:var(--brand-2)}
+.hero-ctas .btn-half{flex:1 1 calc(50% - 6px)}
+.mobile-bar .mb-call{flex:none;display:grid;place-items:center;gap:1px;width:56px;min-height:52px;border-radius:14px;border:1.5px solid var(--brand);color:var(--brand);text-decoration:none;font:600 .68rem Inter,sans-serif}
+.mobile-bar .mb-call .call-ico{width:20px;height:20px}
+.mobile-bar{gap:8px;padding-left:12px;padding-right:12px}
+.mobile-bar .mb-price{font-size:1.02rem;flex:none}
+.mobile-bar .btn{min-width:0;padding:13px 12px;gap:.4rem;font-size:.98rem}
+@media(max-width:350px){.mobile-bar .mb-price small{display:none}}
 .mobile-bar .btn{min-height:52px;font-size:1.02rem;white-space:nowrap}
 .mobile-bar .wa-ico{width:22px;height:22px}
 .hero-note{flex-basis:100%;margin:2px 0 0;font-size:.85rem;color:rgba(255,255,255,.82);display:flex;align-items:center;gap:6px}
@@ -228,8 +239,9 @@ fbq('track','PageView');
       <div class="price">$2,950,000 <small>MXN</small></div>
       <div class="hero-ctas">
         <a class="btn btn-wa wa-link" data-msg="info" href="#" target="_blank" rel="noopener"><svg class="wa-ico"><use href="#wa"/></svg>Quiero más información</a>
-        <a class="btn btn-ghost" href="#galeria">Ver fotos</a>
-        <p class="hero-note">Te respondemos por WhatsApp · sin compromiso</p>
+        <a class="btn btn-ghost btn-half btn-call" href="tel:+525560875469" data-loc="hero"><svg class="call-ico" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>Llamar</a>
+        <a class="btn btn-ghost btn-half" href="#galeria">Ver fotos</a>
+        <p class="hero-note">Te atendemos por WhatsApp o llamada · sin compromiso</p>
       </div>
     </div>
   </section>
@@ -416,10 +428,11 @@ fbq('track','PageView');
       <div class="cta-card">
         <div class="eyebrow">Agenda tu recorrido</div>
         <h2>Ven a conocerla en persona</h2>
-        <p class="lead" style="margin-inline:auto">Escríbenos por WhatsApp y coordinamos una visita en el horario que te acomode. Respondemos tus dudas sobre la casa, los documentos y las formas de pago.</p>
+        <p class="lead" style="margin-inline:auto">Escríbenos por WhatsApp o llámanos y coordinamos una visita en el horario que te acomode. Respondemos tus dudas sobre la casa, los documentos y las formas de pago.</p>
         <div class="price">$2,950,000 <small style="color:var(--muted)">MXN</small></div>
         <div class="cta-actions">
-          <a class="btn btn-wa wa-link" data-msg="visita" href="#" target="_blank" rel="noopener"><svg class="wa-ico"><use href="#wa"/></svg>Agendar visita por WhatsApp</a>
+          <a class="btn btn-wa wa-link" data-msg="visita" href="#" target="_blank" rel="noopener"><svg class="wa-ico"><use href="#wa"/></svg>Agendar por WhatsApp</a>
+          <a class="btn btn-call-solid btn-call" href="tel:+525560875469" data-loc="contacto"><svg class="call-ico" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>Llamar ahora</a>
           <a class="btn btn-outline wa-link" data-msg="credito" href="#" target="_blank" rel="noopener">Preguntar por formas de pago</a>
         </div>
         <form class="visit-form" id="visitForm" novalidate>
@@ -444,7 +457,7 @@ fbq('track','PageView');
         </form>
         <div class="contact-alt">
           <span>WhatsApp: <a class="wa-link" data-msg="info" href="#" target="_blank" rel="noopener">55 6087 5469</a></span>
-          <span>Llamada: <a href="tel:+525560875469">55 6087 5469</a></span>
+          <span>Llamada: <a href="tel:+525560875469" data-loc="contacto_texto">55 6087 5469</a></span>
         </div>
       </div>
     </div>
@@ -475,7 +488,8 @@ fbq('track','PageView');
 <a class="float-wa wa-link" data-msg="info" href="#" target="_blank" rel="noopener" aria-label="Escribir por WhatsApp"><svg><use href="#wa"/></svg></a>
 
 <div class="mobile-bar" id="mobileBar">
-  <div class="mb-price">$2,950,000<small>3 rec · 3½ baños · 2 autos</small></div>
+  <div class="mb-price">$2,950,000<small>3 rec · 3½ baños</small></div>
+  <a class="mb-call btn-call" href="tel:+525560875469" data-loc="barra" aria-label="Llamar al 55 6087 5469"><svg class="call-ico" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg><span>Llamar</span></a>
   <a class="btn btn-wa wa-link" data-msg="visita" href="#" target="_blank" rel="noopener" aria-label="Agendar visita por WhatsApp"><svg class="wa-ico"><use href="#wa"/></svg>Agendar visita</a>
 </div>
 
@@ -521,7 +535,7 @@ fbq('track','PageView');
     a.addEventListener('click', function(){ track('Contact', {content_name: 'whatsapp_' + (a.dataset.msg || 'info'), content_category: SRC}); });
   });
   document.querySelectorAll('a[href^="tel:"]').forEach(function(a){
-    a.addEventListener('click', function(){ track('Contact', {content_name: 'llamada', content_category: SRC}); });
+    a.addEventListener('click', function(){ track('Contact', {content_name: 'llamada_' + (a.dataset.loc || 'otro'), content_category: SRC}); });
   });
   // Formulario "Agenda tu visita": arma el mensaje y abre WhatsApp (no guarda datos en servidor)
   var vf = document.getElementById('visitForm');
